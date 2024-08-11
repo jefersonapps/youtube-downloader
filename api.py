@@ -201,14 +201,16 @@ async def delete_file(download_id: str):
 async def clear_all_downloads():
     db = SessionLocal()
     try:
-        downloads = db.query(Download).filter(Download.status == "Completed").all()
-        for download in downloads:
-            file_path = os.path.join(temp_folder, download.file_name)
+ 
+        for file_name in os.listdir(temp_folder):
+            file_path = os.path.join(temp_folder, file_name)
             if os.path.isfile(file_path):
                 os.remove(file_path)
-            db.delete(download)
+        
+        db.query(Download).delete()
         db.commit()
-        return {"message": "All downloads cleared successfully"}
+
+        return {"message": "All downloads and records cleared successfully"}
     except Exception as e:
         logging.error(f"Error clearing all downloads: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
