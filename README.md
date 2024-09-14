@@ -33,7 +33,7 @@ pip install -r requirements.txt
 
 ## Executando a API
 
-Inicie o servidor de desenvolvimento FastAPI:
+Inicie o servidor:
 
 ```bash
 uvicorn main:app --reload
